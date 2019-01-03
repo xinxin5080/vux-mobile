@@ -10,11 +10,16 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/newsList',
+      name: 'newsList',
+      component: () => import(/* webpackChunkName: "newsList" */ './views/news/NewsList.vue')
+    },
+    {
+      path: '/newsdetails/:id',
+      name: 'newsdetails',
+      component: () => import(/* webpackChunkName: "newsdetails" */ './views/news/Newsdetails.vue')
     }
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // }
   ]
 })
