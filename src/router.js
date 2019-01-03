@@ -20,6 +20,16 @@ export default new Router({
       path: '/newsdetails/:id',
       name: 'newsdetails',
       component: () => import(/* webpackChunkName: "newsdetails" */ './views/news/Newsdetails.vue')
+    },
+    {
+      path: '/instagram',
+      name: 'instagram',
+      component: () => import(/* webpackChunkName: "instagram" */ './views/imgs/Instagram.vue')
+    },
+    {
+      path: '/imgDetail/:id',
+      name: 'imgDetail',
+      component: () => import(/* webpackChunkName: "imgDetail" */ './views/imgs/ImgDetail.vue')
     }
   ]
 })

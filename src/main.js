@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import './style/iconfont.scss'
 import './style/reset.scss'
+import VuePreview from 'vue-preview'
+Vue.use(VuePreview)
 Vue.filter('filterTime', function (times) {
   let time = new Date(times)
   let y = time.getFullYear()

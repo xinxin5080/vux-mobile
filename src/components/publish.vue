@@ -81,7 +81,6 @@ export default {
       if (this.textdata.trim()) {
         publish(this.id, strdata)
           .then(res => {
-            console.log(res)
             if (res.status === 0) {
               this.comment = []
               this.pageindex = 1

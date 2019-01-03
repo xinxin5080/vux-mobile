@@ -67,7 +67,6 @@ export default {
   },
   methods: {
     jumpTo (urlName) {
-      console.log(123)
       this.$router.push({ name: urlName })
     }
   }
