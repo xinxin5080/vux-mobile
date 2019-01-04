@@ -16,3 +16,9 @@ export const imgclassify = id => axios.get(`/getimages/${id}`).then(res => res.d
 export const imgmin = id => axios.get(`/getthumimages/${id}`).then(res => res.data)
 // 图片描述
 export const imgdescribe = id => axios.get(`/getimageInfo/${id}`).then(res => res.data)
+// 商品列表
+export const goodslist = pageindex => axios.get(`getgoods`, { params: { pageindex } }).then(res => res.data)
+// 获取商品价格及描述
+export const goodsdescribe = id => axios.get(`/goods/getinfo/${id}`).then(res => res.data)
+// 图文
+export const goodstxt = id => axios.get(`/goods/getdesc/${id}`).then(res => res.data)
