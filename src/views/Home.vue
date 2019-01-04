@@ -19,8 +19,8 @@
         <i slot="icon" class="iconfont icon-weibiaoti2fuzhi12" ></i>
         <span slot="label">会员</span>
       </tabbar-item>
-      <tabbar-item selected link="/component/demo" badge="2">
-       <i slot="icon" class="iconfont icon-gouwuche" ></i>
+      <tabbar-item selected link="/cart" :badge="$store.state.totalnum.toString()">
+       <i slot="icon" class="iconfont icon-gouwuche"></i>
         <span slot="label">购物车</span>
       </tabbar-item>
       <tabbar-item >
@@ -69,6 +69,10 @@ export default {
     jumpTo (urlName) {
       this.$router.push({ name: urlName })
     }
+  },
+  created () {
+    // 触发vux
+    this.$store.commit('num')
   }
 }
 </script>

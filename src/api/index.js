@@ -22,3 +22,5 @@ export const goodslist = pageindex => axios.get(`getgoods`, { params: { pageinde
 export const goodsdescribe = id => axios.get(`/goods/getinfo/${id}`).then(res => res.data)
 // 图文
 export const goodstxt = id => axios.get(`/goods/getdesc/${id}`).then(res => res.data)
+// 购物车
+export const goodscart = id => axios.get(`/goods/getshopcarlist/${id}`).then(res => res.data)

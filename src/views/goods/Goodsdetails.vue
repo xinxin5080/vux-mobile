@@ -9,8 +9,8 @@
     <div>
       <h4 class="goods-title">{{describe.title}}</h4>
       <p class="goods-price">
-        <span class="market-price">{{describe.sell_price}}</span>
-        <span class="sell-price">{{describe.market_price}}</span>
+        <span class="market-price">{{describe.market_price}}</span>
+        <span class="sell-price">{{describe.sell_price}}</span>
      </p>
     </div>
     <div class="goods-info">
@@ -28,16 +28,16 @@
       <div class="goods-footer-item cart">
         <span class="iconfont icon-gouwuche"></span>
         <span>购物车</span>
-        <span class="badge">4</span>
+        <span class="badge">{{$store.state.totalnum}}</span>
       </div>
-      <div class="goods-footer-item add"><span>加入购物车</span></div>
-      <div class="goods-footer-item buy"><span>立即购买</span></div>
+      <div class="goods-footer-item add" @click="cartbnt"><span>加入购物车</span></div>
+      <div class="goods-footer-item buy" @click="shopbnt"><span>立即购买</span></div>
     </div>
   </div>
 </template>
 <script>
 import { XHeader, Swiper, XButton } from 'vux'
-import { imgmin, goodsdescribe } from '@/api'
+import { imgmin, goodsdescribe, goodscart } from '@/api'
 export default {
   components: {
     XHeader,
@@ -48,12 +48,14 @@ export default {
     return {
       imgs: [],
       id: this.$route.params.id,
-      describe: {}
+      describe: {},
+      cart: {}
     }
   },
-  created () {
+  mounted () {
     this.init()
     this.init2()
+    this.$store.commit('num')
   },
   methods: {
     init () {
@@ -71,6 +73,11 @@ export default {
         .then(res => {
           this.describe = res.message[0]
         })
+      // 将购物需要的图片获取
+      goodscart(this.id)
+        .then(res => {
+          this.cart = res.message[0]
+        })
     },
     // 图文介绍
     textbnt (id) {
@@ -79,6 +86,45 @@ export default {
     // 评论
     publishbnt (id) {
       this.$router.push({ name: 'goodspublish', params: { id: id } })
+    },
+    // 购买
+    shopbnt () {
+      this.$router.push({ name: 'cart' })
+    },
+    // 加入购物车
+    cartbnt () {
+      // 1.0点击加入购物车,先判断又没当前这个商品
+      // 获取本地存储的信息
+      // JSON.parse() 方法用于将一个 JSON 字符串转换为对象
+      // 如果[]不加""是空数组,JSON.parse无法转数组
+      let mygoods = JSON.parse(localStorage.getItem('mygoods') || '[]')
+      console.log(mygoods)
+      // 通过findIndex查询中有无相同的id,有就返回当前id的索引
+      // 无就返回-1
+      let index = mygoods.findIndex(item =>
+        item.id === parseInt(this.id)
+      )
+      if (index !== -1) {
+      // 1.1有,就将数量+1
+        mygoods[index].num += 1
+        localStorage.setItem('mygoods', JSON.stringify(mygoods))
+      } else {
+        // 1.2没有,就将商品所需要的信息加进去
+        // 状态,图片,标题,价格,数量,id以对象的形式保存在本地存储
+        let tempObj = {
+          state: true,
+          img: this.cart.thumb_path,
+          title: this.describe.title,
+          price: this.describe.market_price,
+          num: 1,
+          id: this.describe.id
+        }
+        // 1.3将对象放进数组中
+        mygoods.push(tempObj)
+        // 1.4保存在本地,
+        // JSON.stringify() 方法用于将 JavaScript 值转换为 JSON 字符串。
+        localStorage.setItem('mygoods', JSON.stringify(mygoods))
+      }
     }
   }
 }
